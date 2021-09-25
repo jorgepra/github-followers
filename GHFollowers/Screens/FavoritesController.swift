@@ -50,18 +50,22 @@ class FavoriteController: DataLoadingController {
                 self.presentAlertControllerOnMainThread(alertTitle: "Something went wrong", message: err.rawValue, buttonTitle: "Ok")
                 
             case .success(let favorites):
-                self.favorites = favorites
-                
-                if self.favorites.isEmpty {
-                    self.showEmptyView(message: "No favorites?\nAdd one on the follower screen", in: self.view)
-                    return
-                }
-                                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                    self.view.bringSubviewToFront(self.tableView)
-                }
+                self.updateUI(with: favorites)
             }
+        }
+    }
+    
+    fileprivate func updateUI(with favorites: [Follower]) {
+        self.favorites = favorites
+        
+        if self.favorites.isEmpty {
+            self.showEmptyView(message: "No favorites?\nAdd one on the follower screen", in: self.view)
+            return
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.view.bringSubviewToFront(self.tableView)
         }
     }
 }

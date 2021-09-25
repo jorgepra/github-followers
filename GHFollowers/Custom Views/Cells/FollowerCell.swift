@@ -9,18 +9,22 @@ import UIKit
 
 class FollowerCell: UICollectionViewCell {
     
-    static let reuseID = "FollowerCell"
+    static let reuseID  = "FollowerCell"
     let avatarImageview = AvatarImageView(frame: .zero)
-    let usernameLabel = TitleLabel(textAlignment: .center, fontSize: 16)
+    let usernameLabel   = TitleLabel(textAlignment: .center, fontSize: 16)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func configure()  {
-        usernameLabel.text = "username"
-        let padding: CGFloat = 8
+        usernameLabel.text      = "username"
+        let padding: CGFloat    = 8
         
         addSubview(avatarImageview)
         avatarImageview.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: padding, left: padding, bottom: 0, right: padding))
@@ -33,10 +37,5 @@ class FollowerCell: UICollectionViewCell {
     func set(follower: Follower)  {
         usernameLabel.text = follower.login
         avatarImageview.downloadImage(from: follower.avatarUrl)
-    }
-    
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

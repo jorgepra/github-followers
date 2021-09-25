@@ -11,7 +11,7 @@ class SearchController: UIViewController {
     
     let usernameTextField   = SearchTextField()
     let getFollowersButton  = GFButton(title: "Get Followers", backgroundColor: .systemGreen)
-    let logoImageView       = Images.ghLogo
+    let logoImageView       = UIImageView(image: Images.ghLogo)
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

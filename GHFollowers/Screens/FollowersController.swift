@@ -26,7 +26,11 @@ class FollowersController: DataLoadingController{
         super.init(nibName: nil, bundle: nil)
         self.username = username
     }
-        
+                
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
@@ -47,33 +51,38 @@ class FollowersController: DataLoadingController{
         navigationItem.title                = username
         navigationController?.navigationBar.prefersLargeTitles = true
     }
-    
+            
     @objc fileprivate func handleAddButton()  {
         showLoadingView()
         
-        NetworkManager.shared.getUserInfo(username: username) { result in
+        NetworkManager.shared.getUserInfo(username: username) { [weak self] result in
+            guard let self = self else {return}
             self.dismissLoadingView()
             
             switch result{
             case .failure(let error):
                 self.presentAlertControllerOnMainThread(alertTitle: "Something went wrong", message: error.rawValue, buttonTitle: "OK")
             case .success(let user):
-                let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
-                
-                PersistenceManager.updatewith(favorite: favorite, actionType: .add) { [weak self] error in
-                    guard let self = self else {return}
-                    
-                    if let error = error {
-                        self.presentAlertControllerOnMainThread(alertTitle: "Something went wrong", message: error.rawValue, buttonTitle: "OK")
-                        return
-                    }
-                    
-                    self.presentAlertControllerOnMainThread(alertTitle: "Success!", message: "You have successfully favorited this user 🎉", buttonTitle: "Hooray!")
-                }                
+                self.addUserToFavorites(user)
             }
         }
     }
+      
+    fileprivate func addUserToFavorites(_ user: User) {
+        let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
         
+        PersistenceManager.updatewith(favorite: favorite, actionType: .add) { [weak self] error in
+            guard let self = self else {return}
+            
+            if let error = error {
+                self.presentAlertControllerOnMainThread(alertTitle: "Something went wrong", message: error.rawValue, buttonTitle: "OK")
+                return
+            }
+            
+            self.presentAlertControllerOnMainThread(alertTitle: "Success!", message: "You have successfully favorited this user 🎉", buttonTitle: "Hooray!")
+        }
+    }
+    
     fileprivate func configureSearchController()  {
         let searchController = UISearchController()
         searchController.searchResultsUpdater   = self
@@ -97,7 +106,7 @@ class FollowersController: DataLoadingController{
             return cell
         })
     }
-    
+            
     fileprivate func getFollowers(numberPage: Int)  {
         showLoadingView()
         isLoadingMoreFollowers = true
@@ -109,19 +118,23 @@ class FollowersController: DataLoadingController{
             case .failure( let error):
                 self.presentAlertControllerOnMainThread(alertTitle: "Bad stuff happened", message: error.rawValue, buttonTitle: "Ok")
             case .success(let followers):
-                if followers.count < NetworkManager.shared.itemsPerPage { self.hasMoreFollowers = false }
-                self.followers.append(contentsOf: followers)
-                
-                if self.followers.isEmpty {
-                    let message = "This user doesn't have any followers. Go follow them 😁."
-                    DispatchQueue.main.async { self.showEmptyView(message: message, in: self.view) }
-                    return
-                }
-                                                
-                self.updateData(on: self.followers)
+                self.updateUI(with: followers)
             }
             self.isLoadingMoreFollowers = false
         }
+    }
+    
+    fileprivate func updateUI(with followers: [Follower]) {
+        if followers.count < NetworkManager.shared.itemsPerPage { self.hasMoreFollowers = false }
+        self.followers.append(contentsOf: followers)
+        
+        if self.followers.isEmpty {
+            let message = "This user doesn't have any followers. Go follow them 😁."
+            DispatchQueue.main.async { self.showEmptyView(message: message, in: self.view) }
+            return
+        }
+        
+        self.updateData(on: self.followers)
     }
     
     fileprivate func updateData(on followers: [Follower])  {
@@ -129,10 +142,6 @@ class FollowersController: DataLoadingController{
         snapshot.appendSections([.main])
         snapshot.appendItems(followers)
         DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true)}
-    }
-            
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -183,7 +192,6 @@ extension FollowersController: UserInfoControllerDelegate{
         followers.removeAll()
         filteredFollowers.removeAll()
         collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
-        //self.collectionView.setContentOffset(.zero, animated: true)
         getFollowers(numberPage: page)
     }
 }

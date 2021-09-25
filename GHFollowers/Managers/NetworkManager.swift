@@ -9,10 +9,11 @@ import UIKit
 
 class NetworkManager {
     
-    fileprivate let baseURL = "https://api.github.com/users/"
-    let cache = NSCache<NSString,UIImage>()
-    static let shared = NetworkManager()
-    let itemsPerPage = 100
+    fileprivate let baseURL     = "https://api.github.com/users/"
+    static let shared           = NetworkManager()
+    let cache                   = NSCache<NSString,UIImage>()
+    let itemsPerPage            = 100
+    
     fileprivate init() {}
     
     func getFollowers(username: String, page: Int, completion: @escaping (Result<[Follower],APIError>)->Void)  {

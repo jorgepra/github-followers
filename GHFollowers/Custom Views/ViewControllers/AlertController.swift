@@ -9,19 +9,23 @@ import UIKit
 
 class AlertController: UIViewController {
 
-    let containerView = AlertContainerView()
-    let titleLabel = TitleLabel(textAlignment: .center, fontSize: 20)
-    let messageLabel = BodyLabel(textAlignment: .center)
-    let actionButton = GFButton(title: "Ok", backgroundColor: .systemPink)
-    var alertTitle : String?
-    var message: String?
-    var buttonTitle: String?
+    let containerView   = AlertContainerView()
+    let titleLabel      = TitleLabel(textAlignment: .center, fontSize: 20)
+    let messageLabel    = BodyLabel(textAlignment: .center)
+    let actionButton    = GFButton(title: "Ok", backgroundColor: .systemPink)
+    var alertTitle      : String?
+    var message         : String?
+    var buttonTitle     : String?
     
     init(alertTitle: String? = nil, message: String? = nil, buttonTitle: String? = nil) {
         super.init(nibName: nil, bundle: nil)
-        self.alertTitle = alertTitle
-        self.message = message
-        self.buttonTitle = buttonTitle
+        self.alertTitle     = alertTitle
+        self.message        = message
+        self.buttonTitle    = buttonTitle
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -62,12 +66,8 @@ class AlertController: UIViewController {
         
     fileprivate func configureMessageLabel()  {
         containerView.addSubview(messageLabel)
-        messageLabel.text = message
-        messageLabel.numberOfLines = 4
+        messageLabel.text           = message
+        messageLabel.numberOfLines  = 4
         messageLabel.anchor(top: titleLabel.bottomAnchor, leading: containerView.leadingAnchor, bottom: actionButton.topAnchor, trailing: containerView.trailingAnchor, padding: .init(top: 8, left: padding, bottom: 12, right: padding))
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

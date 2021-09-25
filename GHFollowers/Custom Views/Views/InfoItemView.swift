@@ -13,27 +13,31 @@ class InfoItemView: UIView {
         case repos, gists, followers, following
     }
     
-    let symbolImageView = UIImageView()
-    let titleLabel = TitleLabel(textAlignment: .center, fontSize: 14)
-    let countLabel = TitleLabel(textAlignment: .center, fontSize: 15)
+    let iconImageView   = UIImageView()
+    let titleLabel      = TitleLabel(textAlignment: .center, fontSize: 14)
+    let countLabel      = TitleLabel(textAlignment: .center, fontSize: 15)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         layoutUI()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     fileprivate func layoutUI()  {
-        symbolImageView.constrainHeight(20)
-        symbolImageView.constrainWidth(20)
-        symbolImageView.contentMode = .scaleAspectFit
-        symbolImageView.tintColor   = .label
-        symbolImageView.image       = SFSymbols.location
+        iconImageView.constrainHeight(20)
+        iconImageView.constrainWidth(20)
+        iconImageView.contentMode   = .scaleAspectFit
+        iconImageView.tintColor     = .label
+        iconImageView.image         = SFSymbols.location
         titleLabel.text             = "Public Repos"
         titleLabel.textColor        = .label
         countLabel.text             = "25"
         countLabel.textColor        = .label
         
-        let hstack      = UIStackView(arrangedSubviews: [symbolImageView,titleLabel])
+        let hstack      = UIStackView(arrangedSubviews: [iconImageView,titleLabel])
         hstack.spacing  = 16
         
         let overallStackView        = UIStackView(arrangedSubviews: [hstack, countLabel])
@@ -47,22 +51,18 @@ class InfoItemView: UIView {
     func set(itemInfoType: ItemInfoType, withCount count: Int)  {
         switch itemInfoType {
         case .repos:
-            symbolImageView.image = SFSymbols.repos
-            titleLabel.text = "Public Repos"
+            iconImageView.image = SFSymbols.repos
+            titleLabel.text     = "Public Repos"
         case .gists:
-            symbolImageView.image = SFSymbols.gists
-            titleLabel.text = "Public Gists"
+            iconImageView.image = SFSymbols.gists
+            titleLabel.text     = "Public Gists"
         case .followers:
-            symbolImageView.image = SFSymbols.followers
-            titleLabel.text = "Followers"
+            iconImageView.image = SFSymbols.followers
+            titleLabel.text     = "Followers"
         case .following:
-            symbolImageView.image = SFSymbols.following
-            titleLabel.text = "Following"
+            iconImageView.image = SFSymbols.following
+            titleLabel.text     = "Following"
         }
-        countLabel.text = String(count)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        countLabel.text         = String(count)
     }
 }

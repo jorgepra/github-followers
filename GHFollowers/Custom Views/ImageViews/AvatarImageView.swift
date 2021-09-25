@@ -9,8 +9,8 @@ import UIKit
 
 class AvatarImageView: UIImageView {
        
-    var cache = NetworkManager.shared.cache
-    let placeholderImage = #imageLiteral(resourceName: "avatar-placeholder")
+    var cache               = NetworkManager.shared.cache
+    let placeholderImage    = Images.placeholder
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,10 +22,10 @@ class AvatarImageView: UIImageView {
     }
     
     fileprivate func configure()  {
-        image = placeholderImage
-        layer.cornerRadius = 12
-        clipsToBounds = true
-        backgroundColor = .systemBackground
+        image               = placeholderImage
+        layer.cornerRadius  = 12
+        clipsToBounds       = true
+        backgroundColor     = .systemBackground
     }
     
     func downloadImage(from urlString: String)  {

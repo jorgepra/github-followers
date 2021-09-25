@@ -11,14 +11,10 @@ enum PersistenceActionType {
     case add, remove
 }
 
-
 enum PersistenceManager {
+    
     static private let defaults = UserDefaults.standard
-    
-    enum Keys {
-        static let favorites = "favorites"
-    }
-    
+    enum Keys { static let favorites = "favorites" }
     
     static func retrieveFavorites(completion: @escaping (Result<[Follower],APIError>)->Void) {
         guard let favoritesData = defaults.object(forKey: Keys.favorites) as? Data else {
@@ -36,7 +32,6 @@ enum PersistenceManager {
     }
     
     static func save(favorites: [Follower]) -> APIError?{
-        
         do {
             let encoder = JSONEncoder()
             let favorites = try encoder.encode(favorites)
@@ -52,22 +47,18 @@ enum PersistenceManager {
             switch (result){
             case .failure(let error):
                 completion(error)
-            case .success(let favorites):
-                var retrievedFavorites = favorites
-                
+            case .success(var favorites):
                 switch (actionType){
                 case .add:
-                    guard !retrievedFavorites.contains(favorite) else {
+                    guard !favorites.contains(favorite) else {
                         completion(.alreadyInFavorites)
                         return
                     }
-                    
-                    retrievedFavorites.append(favorite)
+                    favorites.append(favorite)
                 case .remove:
-                    retrievedFavorites.removeAll { $0.login == favorite.login }
+                    favorites.removeAll { $0.login == favorite.login }
                 }
-                
-                completion(save(favorites: retrievedFavorites))
+                completion(save(favorites: favorites))
             }
         }
     }

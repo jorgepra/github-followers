@@ -19,9 +19,9 @@ class AlertContainerView: UIView {
     }
     
     fileprivate func configure() {
-        backgroundColor = .systemBackground
-        layer.cornerRadius = 16
-        layer.borderWidth = 2
-        layer.borderColor = UIColor.white.cgColor
+        backgroundColor     = .systemBackground
+        layer.cornerRadius  = 16
+        layer.borderWidth   = 2
+        layer.borderColor   = UIColor.white.cgColor
     }
 }

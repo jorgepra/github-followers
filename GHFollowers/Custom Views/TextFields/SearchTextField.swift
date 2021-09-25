@@ -18,22 +18,22 @@ class SearchTextField: UITextField {
     }
     
     func configure()  {
-        layer.cornerRadius  = 10
-        layer.borderWidth   = 2
-        layer.borderColor   = UIColor.systemGray3.cgColor
+        layer.cornerRadius          = 10
+        layer.borderWidth           = 2
+        layer.borderColor           = UIColor.systemGray3.cgColor
         
-        textColor                   = .label // white in light mode, black in darkmode
+        textColor                   = .label // white in light mode; black in darkmode
         tintColor                   = .label
         textAlignment               = .center
         font                        = UIFont.preferredFont(forTextStyle: .title2)
         adjustsFontSizeToFitWidth   = true
         minimumFontSize             = 12
         
-        autocapitalizationType  = .none
-        backgroundColor         = .tertiarySystemBackground // not too bold
-        autocorrectionType      = .no
-        returnKeyType           = .go
-        clearButtonMode         = .whileEditing
-        placeholder             = "Enter a username"
+        autocapitalizationType      = .none
+        backgroundColor             = .tertiarySystemBackground // not too bold
+        autocorrectionType          = .no
+        returnKeyType               = .go
+        clearButtonMode             = .whileEditing
+        placeholder                 = "Enter a username"
     }
 }

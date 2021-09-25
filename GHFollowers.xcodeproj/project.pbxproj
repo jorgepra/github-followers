@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		99285ABB26ED1AF3002775CD /* UserInfoHeaderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99285ABA26ED1AF3002775CD /* UserInfoHeaderController.swift */; };
-		99285ABD26ED1B39002775CD /* GFSecondaryTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99285ABC26ED1B39002775CD /* GFSecondaryTitleLabel.swift */; };
 		99285ABF26ED530F002775CD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99285ABE26ED530F002775CD /* Constants.swift */; };
 		99285AC126EDAABD002775CD /* InfoCardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99285AC026EDAABD002775CD /* InfoCardController.swift */; };
 		99285AC326EDC318002775CD /* InfoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99285AC226EDC318002775CD /* InfoItemView.swift */; };
@@ -44,11 +43,11 @@
 		99D5EEBF26EF95A500E10DA6 /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D5EEBE26EF95A500E10DA6 /* FavoriteCell.swift */; };
 		99D5EEC126F01D0700E10DA6 /* AlertContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D5EEC026F01D0700E10DA6 /* AlertContainerView.swift */; };
 		99D5EEC326F02ACD00E10DA6 /* DataLoadingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D5EEC226F02ACD00E10DA6 /* DataLoadingController.swift */; };
+		99F849E226FC086E00814CDE /* SecondaryTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F849E126FC086E00814CDE /* SecondaryTitleLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		99285ABA26ED1AF3002775CD /* UserInfoHeaderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoHeaderController.swift; sourceTree = "<group>"; };
-		99285ABC26ED1B39002775CD /* GFSecondaryTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFSecondaryTitleLabel.swift; sourceTree = "<group>"; };
 		99285ABE26ED530F002775CD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		99285AC026EDAABD002775CD /* InfoCardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCardController.swift; sourceTree = "<group>"; };
 		99285AC226EDC318002775CD /* InfoItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoItemView.swift; sourceTree = "<group>"; };
@@ -86,6 +85,7 @@
 		99D5EEBE26EF95A500E10DA6 /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
 		99D5EEC026F01D0700E10DA6 /* AlertContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertContainerView.swift; sourceTree = "<group>"; };
 		99D5EEC226F02ACD00E10DA6 /* DataLoadingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoadingController.swift; sourceTree = "<group>"; };
+		99F849E126FC086E00814CDE /* SecondaryTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryTitleLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,7 +231,7 @@
 			children = (
 				99442BB726E705DD00C268FB /* TitleLabel.swift */,
 				99442BB926E7070100C268FB /* BodyLabel.swift */,
-				99285ABC26ED1B39002775CD /* GFSecondaryTitleLabel.swift */,
+				99F849E126FC086E00814CDE /* SecondaryTitleLabel.swift */,
 			);
 			path = Labels;
 			sourceTree = "<group>";
@@ -369,7 +369,6 @@
 				99D5EEC126F01D0700E10DA6 /* AlertContainerView.swift in Sources */,
 				99285AC126EDAABD002775CD /* InfoCardController.swift in Sources */,
 				99442BC426E855AE00C268FB /* Follower.swift in Sources */,
-				99285ABD26ED1B39002775CD /* GFSecondaryTitleLabel.swift in Sources */,
 				99285AD226EE9CA6002775CD /* PersistenceManager.swift in Sources */,
 				99442BB426E67BDA00C268FB /* FollowersController.swift in Sources */,
 				9964DF2226E911B30028853F /* APIError.swift in Sources */,
@@ -379,6 +378,7 @@
 				99442BBA26E7070100C268FB /* BodyLabel.swift in Sources */,
 				99442BA126DFEB5500C268FB /* SearchController.swift in Sources */,
 				99D5EEBF26EF95A500E10DA6 /* FavoriteCell.swift in Sources */,
+				99F849E226FC086E00814CDE /* SecondaryTitleLabel.swift in Sources */,
 				99442BC626E8564900C268FB /* User.swift in Sources */,
 				99442BBC26E804A700C268FB /* AlertController.swift in Sources */,
 				99442BBE26E810F600C268FB /* UIViewController+Ext.swift in Sources */,

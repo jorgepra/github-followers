@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol UserInfoControllerDelegate {
+protocol UserInfoControllerDelegate: AnyObject {
     func didRequestFollowers(for username: String)
 }
 
@@ -17,17 +17,24 @@ class UserInfoController: DataLoadingController {
     var headerView  = UIView()
     let middleView  = UIView()
     let bottomView  = UIView()
+    let scrollView  = UIScrollView()
+    let contentView = UIView()
     let dateLabel   = BodyLabel(textAlignment: .center)
-    var delegate    : UserInfoControllerDelegate?
+    weak var delegate    : UserInfoControllerDelegate?
     
     init(username: String) {
         self.username = username
         super.init(nibName: nil, bundle: nil)
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
+        configureScrollView()
         layoutUI()
         getUserInfo()
     }
@@ -42,27 +49,38 @@ class UserInfoController: DataLoadingController {
         dismiss(animated: true)
     }
     
+    fileprivate func configureScrollView()  {
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        scrollView.fillSuperview()
+        contentView.fillSuperview()
+        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        contentView.heightAnchor.constraint(equalToConstant: 700).isActive = true
+        
+    }
+    
     fileprivate func layoutUI()  {
-        view.addSubview(headerView)
-        view.addSubview(middleView)
-        view.addSubview(bottomView)
-        view.addSubview(dateLabel)
+        contentView.addSubview(headerView)
+        contentView.addSubview(middleView)
+        contentView.addSubview(bottomView)
+        contentView.addSubview(dateLabel)
         
         let padding: CGFloat    = 20
         let heightCard: CGFloat = 160
-        headerView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: self.view.leadingAnchor, bottom: nil, trailing: self.view.trailingAnchor ,padding: .init(top: padding, left: padding, bottom: 0, right: padding), size: .init(width: 0, height: 210))
+        headerView.anchor(top: contentView.safeAreaLayoutGuide.topAnchor, leading: contentView.leadingAnchor, bottom: nil, trailing: contentView.trailingAnchor ,padding: .init(top: padding, left: padding, bottom: 0, right: padding), size: .init(width: 0, height: 210))
                 
-        middleView.anchor(top: headerView.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 10, left: padding, bottom: 0, right: padding), size: .init(width: 0, height: heightCard))
+        middleView.anchor(top: headerView.bottomAnchor, leading: contentView.leadingAnchor, bottom: nil, trailing: contentView.trailingAnchor, padding: .init(top: padding, left: padding, bottom: 0, right: padding), size: .init(width: 0, height: heightCard))
         
-        bottomView.anchor(top: middleView.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor,padding: .init(top: padding, left: padding, bottom: 0, right: padding), size: .init(width: 0, height: heightCard))
+        bottomView.anchor(top: middleView.bottomAnchor, leading: contentView.leadingAnchor, bottom: nil, trailing: contentView.trailingAnchor,padding: .init(top: padding, left: padding, bottom: 0, right: padding), size: .init(width: 0, height: heightCard))
         
-        dateLabel.anchor(top: bottomView.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: padding, left: padding, bottom: 0, right: padding))
+        dateLabel.anchor(top: bottomView.bottomAnchor, leading: contentView.leadingAnchor, bottom: nil, trailing: contentView.trailingAnchor, padding: .init(top: padding, left: padding, bottom: 0, right: padding))
     }
     
     fileprivate func getUserInfo() {
         showLoadingView()
         
-        NetworkManager.shared.getUserInfo(username: username) { result in
+        NetworkManager.shared.getUserInfo(username: username) { [weak self] result in
+            guard let self = self else {return}
             self.dismissLoadingView()
             switch result{
             case .failure(let error ):
@@ -97,10 +115,6 @@ class UserInfoController: DataLoadingController {
         childVC.view.frame = containerView.bounds
         childVC.didMove(toParent: self)
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }    
 }
 
 extension UserInfoController: FollowersCardControllerDelegate{
@@ -124,24 +138,3 @@ extension UserInfoController: ReposCardControllerDelegate{
         presentSafariVC(with: url)
     }
 }
-
-
-//extension UserInfoController: InfoCardControllerDelegate{
-//    func didTapGetProfile(user: User) {
-//        guard let url = URL(string: user.htmlUrl) else {
-//            self.presentGFAlertOnMainThread(alertTitle: "Invalid URL", message: "The url attached to this url is invalid", buttonTitle: "Ok")
-//            return
-//        }
-//        presentSafariVC(with: url)
-//    }
-//
-//    func didTapGetFollowers(user: User) {
-//        if user.followers == 0 {
-//            self.presentGFAlertOnMainThread(alertTitle: "No followers", message: "This user has no followers. What a shame 😔", buttonTitle: "So sad")
-//            return
-//        }
-//
-//        delegate?.didRequestFollowers(for: user.login)
-//        dismiss(animated: true)
-//    }
-//}
